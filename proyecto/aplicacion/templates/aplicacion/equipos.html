@@ -1,0 +1,13 @@
+{% extends 'aplicacion/base.html' %}
+
+{% block contenido %}
+    <h2>Equipos Registrados</h2>
+    
+    <div class="lista-equipos">
+        {% for equipo in equipos %}
+            <p>{{ equipo.nombre }}</p>
+        {% empty %}
+            <p>No hay equipos registrados.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

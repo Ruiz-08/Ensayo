@@ -1,0 +1,233 @@
+/* static/css/estilos.css */
+:root {
+    --color-fondo: #f4f4f4;
+    --color-texto: #333333;
+    --color-principal: #0056b3; /* Azul básico */
+    --color-secundario: #28a745; /* Verde básico */
+    --color-secundario-hover: #218838;
+    --color-blanco: #ffffff;
+    --color-bordes: #dddddd;
+    --color-fondo-caja: #fafafa;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+}
+
+header {
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li a {
+    color: var(--color-blanco);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.informacion-usuario {
+    font-size: 14px;
+}
+
+.informacion-usuario a {
+    color: #dfdfdf;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.informacion-usuario a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: var(--color-blanco);
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    min-height: calc(100vh - 120px);
+    border-radius: 4px;
+}
+
+.contenedor-inicio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.formulario-inicio {
+    background: var(--color-blanco);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+.formulario-inicio h2 {
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.grupo-formulario {
+    margin-bottom: 15px;
+}
+
+.grupo-formulario label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.grupo-formulario input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.boton {
+    background-color: var(--color-secundario);
+    color: var(--color-blanco);
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.boton:hover {
+    background-color: var(--color-secundario-hover);
+}
+
+.boton-linea {
+    width: auto;
+}
+
+/* Contenedor del partido */
+.caja-partido {
+    border: 1px solid var(--color-bordes);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: var(--color-fondo-caja);
+}
+
+.encabezado-partido {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.cuerpo-partido {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.cuerpo-partido input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.estado-pendiente {
+    color: #e67e22;
+    font-weight: bold;
+}
+
+.estado-finalizado {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+/* Estilos de la tabla */
+.tabla-posiciones {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.tabla-posiciones th, .tabla-posiciones td {
+    border: 1px solid var(--color-bordes);
+    padding: 12px;
+    text-align: center;
+}
+
+.tabla-posiciones th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: var(--color-texto);
+}
+
+.tabla-posiciones tr:nth-child(even) {
+    background-color: #fbfbfb;
+}
+
+.caja-finalista {
+    text-align: center;
+    padding: 40px;
+    background-color: #f4fcf6;
+    border: 2px solid var(--color-secundario);
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+.caja-finalista h2 {
+    color: var(--color-secundario-hover);
+    font-size: 32px;
+    margin-top: 10px;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    nav ul {
+        flex-wrap: wrap;
+    }
+    .cuerpo-partido {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .tabla-posiciones {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
