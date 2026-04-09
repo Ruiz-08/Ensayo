@@ -13,16 +13,15 @@
         <h1>Gestión de Torneo</h1>
         <nav>
             <ul>
-                <!-- Los enlaces pueden ser actualizados luego a tags {% url %} -->
-                <li><a href="#">Equipos</a></li>
-                <li><a href="#">Partidos</a></li>
-                <li><a href="#">Tabla</a></li>
-                <li><a href="#">Finalista</a></li>
+                <li><a href="{% url 'equipos' %}">Equipos</a></li>
+                <li><a href="{% url 'partidos' %}">Partidos</a></li>
+                <li><a href="{% url 'tabla' %}">Tabla</a></li>
+                <li><a href="{% url 'finalista' %}">Finalista</a></li>
             </ul>
         </nav>
         <div class="informacion-usuario">
-            Usuario: {{ user.username }}
-            <a href="#">Cerrar sesión</a>
+            Usuario: {{ request.session.username }}
+            <a href="{% url 'logout' %}">Cerrar sesión</a>
         </div>
     </header>
 

@@ -1,107 +1,102 @@
 from django.shortcuts import render, redirect
-from .models import Torneo, Equipo, Partido
+from .models import Equipo, Partido, TablaPosiciones, Usuario
 from django.db.models import Q
-# Create your views here.
 
+def login_view(request):
+    if request.method == "POST":
+        u = request.POST.get("username")
+        p = request.POST.get("password")
+        try:
+            user = Usuario.objects.get(username=u, password=p)
+            request.session["usuario_id"] = user.id
+            request.session["username"] = user.username
+            return redirect("equipos")
+        except Usuario.DoesNotExist:
+            return render(request, "aplicacion/login.html", {"error": "Credenciales inválidas"})
+    return render(request, "aplicacion/login.html")
 
-def menu(request):
-    if not request.session.get("usuario"):
+def logout_view(request):
+    request.session.flush()
+    return redirect("login")
+
+def equipos(request):
+    if "usuario_id" not in request.session:
         return redirect("login")
-
-    torneos = Torneo.objects.all()
-
-    return render(request, "menu.html", {"torneos": torneos})
-
-def crear_torneo(request):
-    if request.method == "POST":
-        nombre = request.POST.get("nombre")
-        torneo = Torneo.objects.create(nombre=nombre)
-
-        return redirect("equipos", torneo_id=torneo.id)
-
-    return render(request, "crear_torneo.html")
-
-def agregar_equipos(request, torneo_id):
-    torneo = Torneo.objects.get(id=torneo_id)
-
-    if request.method == "POST":
-        nombre=request.POST.get("nombre")
-        Equipo.objects.create(nombre=nombre, torneo=torneo)
-
-    equipos = Equipo.objects.filter(torneo=torneo)
-
-    return render(request, "equipos.html", {"torneo": torneo, "equipos": equipos})
-
-def generar_fixture(torneo):
-    equipos = list(Equipo.objects.filter(torneo=torneo))
-
-    for i in range(len(equipos)):
-        for j in range(i+1,len(equipos)):
-            Partido.objects.create(torneo=torneo,
-            equipo_local=equipos[i],
-            equipo_visitante=equipos[j])
-
-def crear_fixture(request, torneo_id):
-    torneo = Torneo.objects.get(id=torneo_id)
-
-    generar_fixture(torneo)
-
-    return redirect("ver_partidos", torneo_id=torneo.id)
-
-def ver_partidos(request, torneo_id):
-    partidos = Partido.objects.filter(torneo_id=torneo_id)
-
-    return render(request, "partidos.html", {"partidos":partidos})
-
-def registrar_resultado(request, partido_id):
-    partido = Partido.objects.get(id=partido_id)
-
-    if request.method == "POST":
-        partido.goles_local = int(request.POST.get("goles_local"))
-        partido.goles_visitante = int(request.POST.get("goles_visitante"))
-        partido.jugado = True
-        partido.save()
-
-        return render(request, "registrar.html", {"partido":partido})
     
+    lista_equipos = Equipo.objects.all()
+    return render(request, "aplicacion/equipos.html", {"equipos": lista_equipos})
 
-def tabla_posiciones(request, torneo_id):
-    equipos = Equipo.objects.filter(torneo_id=torneo_id)
+def partidos(request):
+    if "usuario_id" not in request.session:
+        return redirect("login")
+    
+    if request.method == "POST":
+        partido_id = request.POST.get("partido_id")
+        goles_local = request.POST.get("goles_local")
+        goles_visitante = request.POST.get("goles_visitante")
+        
+        if partido_id:
+            partido = Partido.objects.get(id=partido_id)
+            partido.goles_local = int(goles_local)
+            partido.goles_visitante = int(goles_visitante)
+            partido.finalizado = True
+            partido.save()
+            
+            # Recalculate statistics (simple approach: clear and rebuild or update)
+            actualizar_estadisticas()
 
-    tabla = []
+    lista_partidos = Partido.objects.all()
+    return render(request, "aplicacion/partidos.html", {"partidos": lista_partidos})
 
+def actualizar_estadisticas():
+    # Clear and rebuild for simplicity in this example
+    TablaPosiciones.objects.all().delete()
+    equipos = Equipo.objects.all()
+    
     for equipo in equipos:
-        partidos = Partido.objects.filter(Q(equipo_local=equipo) | Q(equipo_visitante=equipo), jugado=True)
+        tp = TablaPosiciones.objects.create(equipo=equipo)
+        
+        # Local matches
+        locales = Partido.objects.filter(equipo_local=equipo, finalizado=True)
+        for p in locales:
+            tp.jugados += 1
+            if p.goles_local > p.goles_visitante:
+                tp.ganados += 1
+                tp.puntos += 3
+            elif p.goles_local == p.goles_visitante:
+                tp.empatados += 1
+                tp.puntos += 1
+            else:
+                tp.perdidos += 1
+        
+        # Visit matches
+        visitantes = Partido.objects.filter(equipo_visitante=equipo, finalizado=True)
+        for p in visitantes:
+            tp.jugados += 1
+            if p.goles_visitante > p.goles_local:
+                tp.ganados += 1
+                tp.puntos += 3
+            elif p.goles_visitante == p.goles_local:
+                tp.empatados += 1
+                tp.puntos += 1
+            else:
+                tp.perdidos += 1
+        
+        tp.save()
 
-    jugados = ganados = empatados = perdidos = puntos = 0
+def tabla(request):
+    if "usuario_id" not in request.session:
+        return redirect("login")
+    
+    estadisticas = TablaPosiciones.objects.all().order_by("-puntos")
+    return render(request, "aplicacion/tabla.html", {"estadisticas": estadisticas})
 
-    for p in partidos:
-        jugados += 1
-
-        if p.equipo_local == equipo:
-            gf=p.goles_local
-            gc=p.goles_visitante
-        else:
-            gf=p.goles_visitante
-            gc=p.goles_local
-
-        if gf > gc:
-            ganados += 1
-            puntos += 3
-        elif gf == gc:
-            empatados += 1
-            puntos += 1
-        else:
-            perdidos += 1
-
-    tabla.append({
-    "equipo":equipo.nombre,
-    "jugados":jugados,
-    "ganados":ganados,
-    "empatados":empatados,
-    "perdidos":perdidos,
-    "puntos":puntos})
-
-    tabla.sort(key=lambda x: -x["puntos"])
-
-    return render(request, "tabla.html", {"tabla":tabla})
+def finalista(request):
+    if "usuario_id" not in request.session:
+        return redirect("login")
+    
+    # Simple logic: the one with most points is the finalist/winner
+    ganador = TablaPosiciones.objects.all().order_by("-puntos").first()
+    equipo_ganador = ganador.equipo if ganador else None
+    
+    return render(request, "aplicacion/finalista.html", {"finalista": equipo_ganador})
