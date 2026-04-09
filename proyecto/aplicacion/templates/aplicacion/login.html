@@ -11,6 +11,9 @@
     <div class="contenedor-inicio">
         <div class="formulario-inicio">
             <h2>Iniciar Sesión</h2>
+            {% if error %}
+                <p style="color: #ff4d4d; text-align: center; font-weight: bold;">{{ error }}</p>
+            {% endif %}
             <form method="POST">
                 {% csrf_token %}
                 <div class="grupo-formulario">
