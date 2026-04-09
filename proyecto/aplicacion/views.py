@@ -35,7 +35,7 @@ def agregar_equipos(request, torneo_id):
 def generar_fixture(torneo):
     equipos = list(Equipo.objects.filter(torneo=torneo))
 
-    for i in range(len(Equipos)):
+    for i in range(len(equipos)):
         for j in range(i+1,len(equipos)):
             Partido.objects.create(torneo=torneo,
             equipo_local=equipos[i],
@@ -94,7 +94,7 @@ def tabla_posiciones(request, torneo_id):
         else:
             perdidos += 1
 
-    tabla.append({"
+    tabla.append({
     "equipo":equipo.nombre,
     "jugados":jugados,
     "ganados":ganados,
