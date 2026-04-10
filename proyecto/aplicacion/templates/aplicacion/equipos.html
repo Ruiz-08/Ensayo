@@ -10,18 +10,27 @@
     
     <div class="lista-equipos">
         {% for equipo in equipos %}
-            <div class="tarjeta-equipo">
-                <h3>{{ equipo.nombre }}</h3>
-                <ul>
+            <div class="tarjeta-equipo" style="background-image: url('{{ equipo.background_url }}');">
+                <div class="info-superior">
+                    <h3 class="equipo-nombre">{{ equipo.nombre }}</h3>
+                    {% if equipo.logo_url %}
+                        <img src="{{ equipo.logo_url }}" alt="Logo {{ equipo.nombre }}" class="equipo-logo">
+                    {% endif %}
+                </div>
+
+                <div class="contenedor-jugadores">
                     {% for jugador in equipo.jugadores.all %}
-                        <li>{{ jugador.nombre }}</li>
+                        <div class="jugador-avatar-item">
+                            <img src="{{ jugador.foto_url }}" alt="{{ jugador.nombre }}" class="jugador-foto">
+                            <span class="jugador-nombre">{{ jugador.nombre }}</span>
+                        </div>
                     {% empty %}
-                        <li>No hay jugadores registrados.</li>
+                        <p style="color: white; font-size: 12px;">Sin jugadores</p>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
         {% empty %}
-            <p>No hay equipos registrados.</p>
+            <p style="text-align: center; color: white;">No hay equipos registrados.</p>
         {% endfor %}
     </div>
 {% endblock %}
