@@ -1,0 +1,46 @@
+{% extends 'aplicacion/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'aplicacion/css/partidos.css' %}">
+{% endblock %}
+
+{% block contenido %}
+    <h2>Listado de Partidos</h2>
+    
+    {% for partido in partidos %}
+        <div class="caja-partido">
+            <div class="encabezado-partido">
+                {{ partido.equipo_local.nombre }} vs {{ partido.equipo_visitante.nombre }}
+            </div>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="hidden" name="partido_id" value="{{ partido.id }}">
+                <div class="cuerpo-partido">
+                    <label>
+                        Local:
+                        <input type="number" name="goles_local" value="{{ partido.goles_local }}" min="0">
+                    </label>
+                    <span>-</span>
+                    <label>
+                        Visitante:
+                        <input type="number" name="goles_visitante" value="{{ partido.goles_visitante }}" min="0">
+                    </label>
+                    
+                    <button type="submit" class="boton boton-linea">Guardar</button>
+                    
+                    <span class="{% if partido.finalizado %}estado-finalizado{% else %}estado-pendiente{% endif %}">
+                        {% if partido.finalizado %}
+                            (Finalizado)
+                        {% else %}
+                            (Pendiente)
+                        {% endif %}
+                    </span>
+                </div>
+            </form>
+        </div>
+    {% empty %}
+        <p>No hay partidos registrados.</p>
+    {% endfor %}
+
+{% endblock %}

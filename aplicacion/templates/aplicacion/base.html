@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Torneo</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'aplicacion/css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1>Gestión de Torneo</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'equipos' %}" class="active">👥 Equipos</a></li>
+                <li><a href="{% url 'partidos' %}">⚽ Partidos</a></li>
+                <li><a href="{% url 'tabla' %}">📊 Tabla</a></li>
+                <li><a href="{% url 'finalista' %}">🏆 Finalista</a></li>
+            </ul>
+        </nav>
+        <div class="informacion-usuario">
+            Usuario: {{ request.session.username }}
+            <a href="{% url 'logout' %}">Cerrar sesión</a>
+        </div>
+    </header>
+
+    <main>
+        {% block contenido %}
+        {% endblock %}
+    </main>
+</body>
+</html>

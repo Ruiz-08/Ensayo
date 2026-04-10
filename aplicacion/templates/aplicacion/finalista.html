@@ -1,0 +1,13 @@
+{% extends 'aplicacion/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'aplicacion/css/finalista.css' %}">
+{% endblock %}
+
+{% block contenido %}
+    <div class="caja-finalista">
+        <p>Equipo ganador</p>
+        <h2>{{ finalista.nombre }}</h2>
+    </div>
+{% endblock %}

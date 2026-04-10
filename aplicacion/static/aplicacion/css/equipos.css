@@ -1,0 +1,114 @@
+/* static/css/equipos.css */
+.lista-equipos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.tarjeta-equipo {
+    position: relative;
+    height: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.tarjeta-equipo::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.9) 100%), var(--fondo-equipo);
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.tarjeta-equipo:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    border-color: var(--color-secundario);
+}
+
+.info-superior {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.equipo-nombre {
+    margin: 0;
+    color: #000;
+    font-size: 24px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.equipo-logo {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.contenedor-jugadores {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 2;
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+/* Ocultar barra de desplazamiento */
+.contenedor-jugadores::-webkit-scrollbar {
+    height: 0;
+}
+
+.jugador-avatar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    min-width: 60px;
+}
+
+.jugador-foto {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.jugador-nombre {
+    color: #000;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+@media (max-width: 600px) {
+    .lista-equipos {
+        grid-template-columns: 1fr;
+    }
+    .tarjeta-equipo {
+        height: 240px;
+    }
+}
