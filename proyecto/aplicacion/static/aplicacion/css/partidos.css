@@ -1,0 +1,76 @@
+/* static/css/partidos.css */
+.caja-partido {
+    border: 1px solid var(--color-bordes);
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    transition: box-shadow 0.3s ease;
+}
+
+.caja-partido:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.encabezado-partido {
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: var(--color-principal);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cuerpo-partido {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.cuerpo-partido label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.cuerpo-partido input[type="number"] {
+    width: 60px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cuerpo-partido input[type="number"]:focus {
+    outline: none;
+    border-color: var(--color-secundario);
+}
+
+.estado-pendiente {
+    color: #f39c12;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.estado-finalizado {
+    color: var(--color-secundario);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.boton-linea {
+    width: auto;
+    min-width: 120px;
+}

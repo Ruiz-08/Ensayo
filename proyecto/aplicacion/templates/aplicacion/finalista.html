@@ -1,4 +1,9 @@
 {% extends 'aplicacion/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'aplicacion/css/finalista.css' %}">
+{% endblock %}
 
 {% block contenido %}
     <div class="caja-finalista">

@@ -1,0 +1,57 @@
+/* static/css/login.css */
+.contenedor-inicio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--color-fondo);
+}
+
+.formulario-inicio {
+    background: var(--color-blanco);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    border-top: 5px solid var(--color-principal);
+}
+
+.formulario-inicio h2 {
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--color-principal);
+    border: none;
+}
+
+.grupo-formulario {
+    margin-bottom: 20px;
+}
+
+.grupo-formulario label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--color-texto);
+}
+
+.grupo-formulario input {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+}
+
+.grupo-formulario input:focus {
+    outline: none;
+    border-color: var(--color-secundario);
+}
+
+.boton-login {
+    width: 100%;
+    margin-top: 10px;
+}
